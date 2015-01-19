@@ -62,5 +62,20 @@ describe Admin::CategoriesController do
 
     assert_raise(ActiveRecord::RecordNotFound) { Category.find(test_id) }
   end
-  
+
+  describe "working with categories" do
+
+    it 'should render new template' do
+      get :new
+      response.should render_template 'new'
+    end
+
+    it 'update category' do
+      test_id = Factory(:category).id
+      post :edit, :id => test_id
+      assert_response :redirect, :action => 'new'
+    end
+
+
+  end
 end

@@ -80,6 +80,8 @@ class Article < Content
     article = Article.create! title: title, body: body, author: author, user_id: User.find_by_name(author).id, published: true
     article_0.comments.each {|comment| comment.update_attributes article_id: article.id}
     article_1.comments.each {|comment| comment.update_attributes article_id: article.id}
+    Article.delete(article_0)
+    Article.delete(article_1)
   end
 
   def set_permalink

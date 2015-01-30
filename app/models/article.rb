@@ -71,6 +71,17 @@ class Article < Content
     end
   end
 
+  def self.merge(id, other_id)
+    article_0 = Article.find(id)
+    article_1 = Article.find(other_id)
+    body = article_0.body + article_1.body
+    title = article_0.title
+    author = article_0.author
+    article = Article.create! title: title, body: body, author: author, user_id: User.find_by_name(author).id, published: true
+    article_0.comments.each {|comment| comment.update_attributes article_id: article.id}
+    article_1.comments.each {|comment| comment.update_attributes article_id: article.id}
+  end
+
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?

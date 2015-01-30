@@ -240,4 +240,8 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+  helper_method :is_admin?
+  def is_admin?
+    current_user.profile_id == 1
+  end
 end
